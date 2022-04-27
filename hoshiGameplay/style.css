@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+
+html, body {
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-family: 'Dosis';
+}
+
+* { 
+    transition: all 0.25s ease-out;
+}
+
+#score {
+    font-family: 'Space Mono';
+    font-size: 18pt;
+    
+    position: absolute;
+    top: 8px;
+    right: 12px;
+}
+
+#timer {
+    position: absolute;
+    top: calc(16px + 18pt);
+    right: 12px;
+}
+
+#accuracy {
+    font-family: 'Space Mono';
+    color: #ffffffcc;
+
+    position: absolute;
+    top: calc(12px + 18pt);
+    right: 36px;
+}
+
+#accuracy::after {
+    content: '%';
+    color: #ffffff80;
+}
+
+#current-pp {
+    font-family: 'Space Mono';
+
+    position: absolute;
+    top: calc(20px + 18pt + 1ch);
+    right: 12px;
+}
+
+#current-pp::after {
+    content: 'pp';
+    font-family: 'Dosis';
+    margin-left: 2px;
+}
+
+#combo {
+    font-family: 'Space Mono';
+    position: absolute;
+    bottom: 8px;
+    left: 12px;
+}
+
+#combo::after {
+    content: 'x';
+    font-family: 'Dosis';
+    margin-left: 2px;
+}
+
+#bm-info {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+
+    transition: all 0.25s ease-out;
+}
+
+#bm-stats {
+    position: absolute;
+    top: calc(24px + 1ch);
+    left: 12px;
+}
+
+#bm-stats div {
+    /* font-size: 8pt; */
+    display: inline-block;
+    width: 7ch !important;
+    padding: 2px 4px;
+    text-align: center;
+    background-color: #ffffffcc;
+    color: #000000cc;
+    border-radius: 4px;
+}
+
+#bm-stats #stars {
+    background-color: gold;
+}
+
+#hp {
+    background-color: #ffffffcc;
+    border-radius: 0 4px 4px 0;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 4px !important;
+
+    transition: width 0.1s ease-out;
+}
