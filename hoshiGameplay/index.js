@@ -17,8 +17,11 @@ const hp = document.getElementById('hp');
 const accuracy = document.getElementById('accuracy');
 const pp = document.getElementById('current-pp');
 const score = document.getElementById('score');
+const combo = document.getElementById('combo');
+const unstableRate = document.getElementById('unstable-rate');
 
 const topElements = [bmInfo, bmStats, timer, hp, accuracy, pp, score];
+const bottomElements = [combo, unstableRate];
 
 timer.width = 16;
 timer.height = 16;
@@ -34,6 +37,7 @@ const animation = {
     score: new CountUp('score', 0, 0, 0, 0.5, {useEasing: true, useGrouping: true, separator: ','}),
     accuracy: new CountUp('accuracy', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false }),
     stars: new CountUp('stars', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false, suffix: '★' }),
+    unstableRate: new CountUp('unstable-rate', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false}),
 }
 
 socket.onmessage = event => {
@@ -51,6 +55,7 @@ socket.onmessage = event => {
             animation.combo.update(data.gameplay.combo.current);
             animation.score.update(data.gameplay.score);
             animation.accuracy.update(data.gameplay.accuracy);
+            animation.unstableRate.update(data.gameplay.hits.unstableRate);
 
             bmInfo.innerText = buildMetadata(metadata, data.menu.mods.str, true);
             
@@ -58,8 +63,11 @@ socket.onmessage = event => {
                 element.style.transform = 'translateY(0)';
                 element.style.opacity = 1;
             });
-            combo.style.transform = 'translateY(0)';
-            combo.style.opacity = 1;
+            
+            bottomElements.forEach(element => {
+                element.style.transform = 'translateY(0)';
+                element.style.opacity = 1;
+            });
 
             hp.style.width = `${(data.gameplay.hp.normal / 200) * 320}px`;
 
@@ -80,8 +88,10 @@ socket.onmessage = event => {
                 element.style.transform = 'translateY(-8px)';
                 element.style.opacity = 0;
             });
-            combo.style.transform = 'translateY(8)';
-            combo.style.opacity = 0;
+            bottomElements.forEach(element => {
+                element.style.transform = 'translateY(8)';
+                element.style.opacity = 0;
+            });
             break;
         case 4:     // Edit song select
         case 5:     // Song select
@@ -90,10 +100,12 @@ socket.onmessage = event => {
                 element.style.transform = 'translateY(-8px)';
                 element.style.opacity = 0;
             });
+            bottomElements.forEach(element => {
+                element.style.transform = 'translateY(8)';
+                element.style.opacity = 0;
+            });
             bmStats.style.transform = 'translateY(0)';
             bmStats.style.opacity = 1;
-            combo.style.transform = 'translateY(8)';
-            combo.style.opacity = 0;
     }
 }
 
