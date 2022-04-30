@@ -7,6 +7,10 @@ socket.onclose = event => {
     socket.send("Clinet closed!");
 }
 
+const settings = {
+    useOriginalMetadata: false,             // Use the original language for metadata
+}
+
 // Elements
 const bmInfo = document.getElementById('bm-info');
 const bmStats = document.getElementById('bm-stats');
@@ -57,7 +61,7 @@ socket.onmessage = event => {
             animation.accuracy.update(data.gameplay.accuracy);
             animation.unstableRate.update(data.gameplay.hits.unstableRate);
 
-            bmInfo.innerText = buildMetadata(metadata, data.menu.mods.str, true);
+            bmInfo.innerText = buildMetadata(metadata, data.menu.mods.str);
             
             topElements.forEach(element => {
                 element.style.transform = 'translateY(0)';
@@ -123,9 +127,9 @@ function timeToRadians(time) {
     return endAngle
 }
 
-function buildMetadata(metadata, mods, useOriginal) {
+function buildMetadata(metadata, mods) {
     let metaString = '';
-    if (useOriginal) {
+    if (settings.useOriginalMetadata) {
         if (metadata.artistOriginal === '' || metadata.artistOriginal === null) {
             metaString += `${metadata.artist} - `;
         } else {
