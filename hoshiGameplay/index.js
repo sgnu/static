@@ -23,8 +23,10 @@ const pp = document.getElementById('current-pp');
 const score = document.getElementById('score');
 const combo = document.getElementById('combo');
 const unstableRate = document.getElementById('unstable-rate');
+const sliderBreaks = document.getElementById('slider-breaks');
+const hits = document.getElementById('hits');
 
-const topElements = [bmInfo, bmStats, timer, hp, accuracy, pp, score];
+const topElements = [bmInfo, bmStats, timer, hp, accuracy, pp, score, hits];
 const bottomElements = [combo, unstableRate];
 
 timer.width = 16;
@@ -41,7 +43,11 @@ const animation = {
     score: new CountUp('score', 0, 0, 0, 0.5, {useEasing: true, useGrouping: true, separator: ','}),
     accuracy: new CountUp('accuracy', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false }),
     stars: new CountUp('stars', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false, suffix: '★' }),
-    unstableRate: new CountUp('unstable-rate', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false}),
+    unstableRate: new CountUp('unstable-rate', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false }),
+    sliderBreaks: new CountUp('slider-breaks', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false, suffix: 'x SB' }),
+    hundreds: new CountUp('hundreds', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false }),
+    fifties: new CountUp('fifties', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false }),
+    misses: new CountUp('misses', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false }),
 }
 
 socket.onmessage = event => {
@@ -60,6 +66,10 @@ socket.onmessage = event => {
             animation.score.update(data.gameplay.score);
             animation.accuracy.update(data.gameplay.accuracy);
             animation.unstableRate.update(data.gameplay.hits.unstableRate);
+            animation.sliderBreaks.update(data.gameplay.hits.sliderBreaks);
+            animation.hundreds.update(data.gameplay.hits['100']);
+            animation.fifties.update(data.gameplay.hits['50']);
+            animation.misses.update(data.gameplay.hits['0']);
 
             bmInfo.innerText = buildMetadata(metadata, data.menu.mods.str);
             
@@ -75,8 +85,16 @@ socket.onmessage = event => {
 
             hp.style.width = `${(data.gameplay.hp.normal / 200) * 320}px`;
 
+            if (data.gameplay.hits.sliderBreaks > 0) {
+                sliderBreaks.style.transform = 'translateY(0)';
+                sliderBreaks.style.opacity = 1;
+            } else {
+                sliderBreaks.style.transform = 'translateY(8px)';
+                sliderBreaks.style.opacity = 0;
+            }
+
             if (data.menu.bm.time.current < data.menu.bm.time.firstObj) {
-                timerContext.strokeStyle = '#00ff0080';
+                timerContext.strokeStyle = '#ffffff00';
             } else {
                 timerContext.strokeStyle = '#ffffff80';
             }

@@ -55,6 +55,14 @@ html, body {
     margin-left: 2px;
 }
 
+#fc-pp {
+    font-family: 'Space Mono';
+
+    position: absolute;
+    top: calc(24px + 18pt + 2ch);
+    right: 12px;
+}
+
 #combo {
     font-family: 'Space Mono';
     position: absolute;
@@ -117,4 +125,39 @@ html, body {
     left: 50%;
     bottom: 52px;
     transform: translateX(-50%) !important;
+}
+
+#hits {
+    display: flex;
+    position: absolute;
+    top: calc(14px + 18pt);
+    right: 120px;
+    font-family: 'Space Mono';
+    font-size: 10pt;
+}
+
+#hits > div {
+    min-width: 2ch;
+    border-radius: 2px;
+    margin-left: 1ch;
+    padding: 0 4px;
+    text-align: center;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+}
+
+#slider-breaks {
+    border-color: transparent;
+}
+
+#hundreds {
+    border-color: green;
+}
+
+#fifties {
+    border-color: yellow;
+}
+
+#misses {
+    border-color: red;
 }
