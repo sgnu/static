@@ -20,13 +20,14 @@ const timer = document.getElementById('timer');
 const hp = document.getElementById('hp');
 const accuracy = document.getElementById('accuracy');
 const pp = document.getElementById('current-pp');
+const fcPP = document.getElementById('fc-pp');
 const score = document.getElementById('score');
 const combo = document.getElementById('combo');
 const unstableRate = document.getElementById('unstable-rate');
 const sliderBreaks = document.getElementById('slider-breaks');
 const hits = document.getElementById('hits');
 
-const topElements = [bmInfo, bmStats, timer, hp, accuracy, pp, score, hits];
+const topElements = [bmInfo, bmStats, timer, hp, accuracy, pp, fcPP, score, hits];
 const bottomElements = [combo, unstableRate];
 
 timer.width = 16;
@@ -39,6 +40,7 @@ socket.onerror = error => console.error(error);
 
 const animation = {
     pp: new CountUp('current-pp', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false }),
+    fcPP: new CountUp('fc-pp', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false }),
     combo: new CountUp('combo', 0, 0, 0.1, { useEasing: false, useGrouping: false }),
     score: new CountUp('score', 0, 0, 0, 0.5, {useEasing: true, useGrouping: true, separator: ','}),
     accuracy: new CountUp('accuracy', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false }),
@@ -62,6 +64,7 @@ socket.onmessage = event => {
     switch (menuState) {
         case 2:     // Playing
             animation.pp.update(data.gameplay.pp.current);
+            animation.fcPP.update(data.gameplay.pp.fc);
             animation.combo.update(data.gameplay.combo.current);
             animation.score.update(data.gameplay.score);
             animation.accuracy.update(data.gameplay.accuracy);
@@ -91,6 +94,14 @@ socket.onmessage = event => {
             } else {
                 sliderBreaks.style.transform = 'translateY(8px)';
                 sliderBreaks.style.opacity = 0;
+            }
+
+            if (data.gameplay.hits.sliderBreaks > 0 || data.gameplay.hits['0'] > 0) { // not FCing 
+                fcPP.style.transform = 'translateY(0)';
+                fcPP.style.opacity = 1;
+            } else { 
+                fcPP.style.transform = 'translateY(8px)';
+                fcPP.style.opacity = 0;
             }
 
             if (data.menu.bm.time.current < data.menu.bm.time.firstObj) {

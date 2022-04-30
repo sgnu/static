@@ -57,10 +57,18 @@ html, body {
 
 #fc-pp {
     font-family: 'Space Mono';
+    font-size: 10pt;
+    color: #ffffff80;
 
     position: absolute;
-    top: calc(24px + 18pt + 2ch);
+    top: calc(36px + 18pt + 2ch);
     right: 12px;
+}
+
+#fc-pp::after {
+    content: 'pp for FC';
+    font-family: 'Dosis';
+    margin-left: 2px;
 }
 
 #combo {
