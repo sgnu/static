@@ -7,6 +7,8 @@
     --text-black: #000000cc;
     --text-accent: #d66ba0;
 
+    --box-background: #171717;
+
     --hundreds: #00c172;
     --fifties: #bf5aa5;
     --misses: #e03455;
@@ -158,6 +160,7 @@ html, body {
 }
 
 #hits {
+    color: var(--text-secondary);
     display: flex;
     position: absolute;
     top: calc(14px + 18pt);
@@ -180,6 +183,11 @@ html, body {
     border-color: transparent;
 }
 
+#slider-breaks::after {
+    content: 'x SB';
+    font-family: 'Dosis';
+}
+
 #hundreds {
     border-color: var(--hundreds);
 }
@@ -190,4 +198,30 @@ html, body {
 
 #misses {
     border-color: var(--misses);
+}
+
+#ranking-panel {
+    background-color: var(--box-background);
+    border-radius: 4px;
+    box-shadow: 0px 2px 8px 0px #00000080,
+                4px 8px 24px 4px #0000002f;
+    color: var(--text-secondary);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    position: absolute;
+    top: calc(50% - 40px);
+    left: calc(50% - 90px);
+
+    width: 180px;
+    height: 80px;
+
+    padding: 8px;
+}
+
+#ranking-panel > p {
+    margin: 0;
 }

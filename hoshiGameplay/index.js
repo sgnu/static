@@ -28,6 +28,11 @@ const combo = document.getElementById('combo');
 const unstableRate = document.getElementById('unstable-rate');
 const sliderBreaks = document.getElementById('slider-breaks');
 const hits = document.getElementById('hits');
+const rankingPanel = document.querySelector('#ranking-panel');
+const rankingUR = document.querySelector('#ranking-ur');
+const rankingMean = document.querySelector('#ranking-mean');
+const rankingPP = document.querySelector('#ranking-pp');
+const rankingFCPP = document.querySelector('#ranking-fc-pp');
 
 const topElements = [bmInfo, bmStats, timer, hp, accuracy, pp, fcPP, score, hits];
 const bottomElements = [combo, unstableRate];
@@ -57,7 +62,7 @@ const animation = {
     accuracy: new CountUp('accuracy', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false }),
     stars: new CountUp('stars', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false, suffix: '★' }),
     unstableRate: new CountUp('unstable-rate', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false }),
-    sliderBreaks: new CountUp('slider-breaks', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false, suffix: 'x SB' }),
+    sliderBreaks: new CountUp('slider-breaks', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false }),
     hundreds: new CountUp('hundreds', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false }),
     fifties: new CountUp('fifties', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false }),
     misses: new CountUp('misses', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false }),
@@ -97,6 +102,9 @@ socket.onmessage = event => {
                 element.style.opacity = 1;
             });
 
+            rankingPanel.style.transform = 'translateY(16px)';
+            rankingPanel.style.opacity = 0;
+
             hp.style.width = `${(data.gameplay.hp.normal / 200) * 320}px`;
 
             if (data.gameplay.hits.sliderBreaks > 0) {
@@ -127,7 +135,6 @@ socket.onmessage = event => {
             timerContext.stroke(circle);
             break;
         case 7:     // Results screen
-            animation.pp.update(data.gameplay.pp.current);
             topElements.forEach(element => {
                 element.style.transform = 'translateY(-8px)';
                 element.style.opacity = 0;
@@ -136,6 +143,16 @@ socket.onmessage = event => {
                 element.style.transform = 'translateY(8)';
                 element.style.opacity = 0;
             });
+            if (data.gameplay.hits.hitErrorArray !== null) {
+                rankingUR.innerText = `${roundDecimal(data.gameplay.hits.unstableRate)} UR`;
+                rankingMean.innerText = `${roundDecimal(data.gameplay.hits.hitErrorArray.reduce((total, num) => { return total + num }) / data.gameplay.hits.hitErrorArray.length)}ms mean`;
+                rankingPP.innerText = `${data.gameplay.pp.current}pp`;
+                if (data.gameplay.hits.sliderBreaks > 0 || data.gameplay.hits['0'] > 0) {
+                    rankingFCPP.innerText = `${data.gameplay.pp.maxThisPlay}pp max / ${data.gameplay.pp.fc}pp if FC`;
+                }
+                rankingPanel.style.transform = 'translateY(0)';
+                rankingPanel.style.opacity = 1;
+            }
             break;
         case 4:     // Edit song select
         case 5:     // Song select
@@ -150,6 +167,9 @@ socket.onmessage = event => {
             });
             bmStats.style.transform = 'translateY(0)';
             bmStats.style.opacity = 1;
+
+            rankingPanel.style.transform = 'translateY(16px)';
+            rankingPanel.style.opacity = 0;
     }
 }
 
