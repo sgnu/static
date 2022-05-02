@@ -1,10 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
 
+:root {
+    --text-primary: #ffffffcc;
+    --text-secondary: #ffffff80;
+    --text-black: #000000cc;
+    --text-accent: #d66ba0;
+
+    --hundreds: #00c172;
+    --fifties: #bf5aa5;
+    --misses: #e03455;
+}
+
 html, body {
     margin: 0;
     padding: 0;
-    color: white;
     font-family: 'Dosis';
 }
 
@@ -13,6 +23,7 @@ html, body {
 }
 
 #score {
+    color: var(--text-primary);
     font-family: 'Space Mono';
     font-size: 18pt;
     
@@ -29,23 +40,25 @@ html, body {
 
 #accuracy {
     font-family: 'Space Mono';
-    color: #ffffffcc;
+    color: var(--text-primary);
 
     position: absolute;
-    top: calc(12px + 18pt);
+    top: calc(14px + 18pt);
     right: 36px;
 }
 
 #accuracy::after {
     content: '%';
-    color: #ffffff80;
+    color: var(--text-secondary);
+    margin-left: 2px;
 }
 
 #current-pp {
     font-family: 'Space Mono';
+    color: var(--text-accent);
 
     position: absolute;
-    top: calc(20px + 18pt + 1ch);
+    top: calc(22px + 18pt + 1ch);
     right: 12px;
 }
 
@@ -58,10 +71,10 @@ html, body {
 #fc-pp {
     font-family: 'Space Mono';
     font-size: 10pt;
-    color: #ffffff80;
+    color: var(--text-secondary);
 
     position: absolute;
-    top: calc(36px + 18pt + 2ch);
+    top: calc(38px + 18pt + 2ch);
     right: 12px;
 }
 
@@ -72,6 +85,7 @@ html, body {
 }
 
 #combo {
+    color: var(--text-secondary);
     font-family: 'Space Mono';
     position: absolute;
     bottom: 8px;
@@ -85,6 +99,7 @@ html, body {
 }
 
 #bm-info {
+    color: var(--text-primary);
     position: absolute;
     top: 8px;
     left: 12px;
@@ -105,7 +120,7 @@ html, body {
     padding: 2px 4px;
     text-align: center;
     background-color: #ffffffcc;
-    color: #000000cc;
+    color: var(--text-black);
     border-radius: 4px;
 }
 
@@ -114,7 +129,7 @@ html, body {
 }
 
 #hp {
-    background-color: #ffffffcc;
+    background-color: var(--text-primary);
     border-radius: 0 4px 4px 0;
 
     position: absolute;
@@ -127,7 +142,7 @@ html, body {
 }
 
 #unstable-rate {
-    color: #ffffff80;
+    color: var(--text-primary);
     text-align: center;
     position: absolute;
     left: 50%;
@@ -135,11 +150,18 @@ html, body {
     transform: translateX(-50%) !important;
 }
 
+#unstable-rate::after {
+    content: 'UR';
+    margin-left: 2px;
+    color: var(--text-secondary);
+    font-family: 'Dosis';
+}
+
 #hits {
     display: flex;
     position: absolute;
     top: calc(14px + 18pt);
-    right: 120px;
+    right: 112px;
     font-family: 'Space Mono';
     font-size: 10pt;
 }
@@ -159,13 +181,13 @@ html, body {
 }
 
 #hundreds {
-    border-color: green;
+    border-color: var(--hundreds);
 }
 
 #fifties {
-    border-color: yellow;
+    border-color: var(--fifties);
 }
 
 #misses {
-    border-color: red;
+    border-color: var(--misses);
 }

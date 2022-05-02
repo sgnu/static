@@ -9,6 +9,8 @@ socket.onclose = event => {
 
 const settings = {
     useOriginalMetadata: false,             // Use the original language for metadata
+    showCombo: true,                        // Show combo counter in overlay
+    showScore: true,
 }
 
 // Elements
@@ -29,6 +31,15 @@ const hits = document.getElementById('hits');
 
 const topElements = [bmInfo, bmStats, timer, hp, accuracy, pp, fcPP, score, hits];
 const bottomElements = [combo, unstableRate];
+
+if (!settings.showCombo) {
+    combo.style.visibility = 'hidden';
+}
+
+if (!settings.showScore) {
+    score.style.visibility = 'hidden';
+}
+
 
 timer.width = 16;
 timer.height = 16;
