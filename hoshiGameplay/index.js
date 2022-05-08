@@ -15,6 +15,7 @@ const settings = {
 
 // Elements
 const bmInfo = document.getElementById('bm-info');
+const bmId = document.getElementById('bm-id')
 const bmStats = document.getElementById('bm-stats');
 const bmAR = document.getElementById('ar');
 const bmOD = document.getElementById('od');
@@ -34,7 +35,7 @@ const rankingMean = document.querySelector('#ranking-mean');
 const rankingPP = document.querySelector('#ranking-pp');
 const rankingFCPP = document.querySelector('#ranking-fc-pp');
 
-const topElements = [bmInfo, bmStats, timer, hp, accuracy, pp, fcPP, score, hits];
+const topElements = [bmInfo, bmId, bmStats, timer, hp, accuracy, pp, fcPP, score, hits];
 const bottomElements = [combo, unstableRate];
 
 if (!settings.showCombo) {
@@ -57,7 +58,7 @@ socket.onerror = error => console.error(error);
 const animation = {
     pp: new CountUp('current-pp', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false }),
     fcPP: new CountUp('fc-pp', 0, 0, 0, 0.25, { useEasing: true, useGrouping: false }),
-    combo: new CountUp('combo', 0, 0, 0.1, { useEasing: false, useGrouping: false }),
+    combo: new CountUp('combo', 0, 0, 0.05, { useEasing: false, useGrouping: false }),
     score: new CountUp('score', 0, 0, 0, 0.5, {useEasing: true, useGrouping: true, separator: ','}),
     accuracy: new CountUp('accuracy', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false }),
     stars: new CountUp('stars', 0, 0, 2, 0.5, { useEasing: true, useGrouping: false, suffix: '★' }),
@@ -74,6 +75,7 @@ socket.onmessage = event => {
     const metadata = data.menu.bm.metadata
 
     animation.stars.update(data.menu.bm.stats.SR);
+    bmId.innerText = `/s/${data.menu.bm.set} /b/${data.menu.bm.id}`
     bmAR.innerText = `AR${roundDecimal(data.menu.bm.stats.AR)}`;
     bmOD.innerText = `OD${roundDecimal(data.menu.bm.stats.OD)}`;
 

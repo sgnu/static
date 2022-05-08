@@ -2,9 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
 
 :root {
-    --text-primary: #ffffffcc;
-    --text-secondary: #ffffff80;
-    --text-black: #000000cc;
+    --text-primary: rgba(255,255,255, 90%);
+    --text-secondary: rgba(255,255,255, 75%);
+    --text-black: rgba(0,0,0,90%);
     --text-accent: #d66ba0;
 
     --box-background: #171717;
@@ -109,9 +109,16 @@ html, body {
     transition: all 0.25s ease-out;
 }
 
+#bm-id {
+    color: var(--text-secondary);
+    position: absolute;
+    top: calc(18px + 1ch);
+    left: 12px;
+}
+
 #bm-stats {
     position: absolute;
-    top: calc(24px + 1ch);
+    top: calc(32px + 2ch);
     left: 12px;
 }
 
@@ -144,6 +151,7 @@ html, body {
 }
 
 #unstable-rate {
+    font-family: 'Space Mono';
     color: var(--text-primary);
     text-align: center;
     position: absolute;
@@ -164,7 +172,7 @@ html, body {
     display: flex;
     position: absolute;
     top: calc(14px + 18pt);
-    right: 112px;
+    right: calc(112px + 1ch);
     font-family: 'Space Mono';
     font-size: 10pt;
 }
@@ -213,7 +221,8 @@ html, body {
     align-items: flex-start;
 
     position: absolute;
-    top: calc(50% - 40px);
+    /* top: calc(50% - 40px); */
+    bottom: 32px;
     left: calc(50% - 90px);
 
     width: 180px;
