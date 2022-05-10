@@ -12,6 +12,13 @@
     --hundreds: #00c172;
     --fifties: #bf5aa5;
     --misses: #e03455;
+
+    --ur-margin: 32px;
+
+    --hits-top: calc(16px + 18pt);
+    --hits-right: calc(112px);
+    --pp-top: calc(24px + 18pt + 1ch);
+    --fc-pp-top: calc(38px + 18pt + 2ch);
 }
 
 html, body {
@@ -19,6 +26,12 @@ html, body {
     padding: 0;
     font-family: 'Dosis';
 }
+
+/* body {
+    background-image: url(screenshot.jpg);
+    background-size: contain;
+    height: 100vh;
+} */
 
 * { 
     transition: all 0.25s ease-out;
@@ -45,7 +58,7 @@ html, body {
     color: var(--text-primary);
 
     position: absolute;
-    top: calc(14px + 18pt);
+    top: calc(16px + 18pt);
     right: 36px;
 }
 
@@ -147,7 +160,7 @@ html, body {
     width: 320px;
     height: 4px !important;
 
-    transition: width 0.1s ease-out;
+    transition: all 0.1s ease-out;
 }
 
 #unstable-rate {
@@ -156,7 +169,7 @@ html, body {
     text-align: center;
     position: absolute;
     left: 50%;
-    bottom: 52px;
+    bottom: var(--ur-margin);
     transform: translateX(-50%) !important;
 }
 
@@ -174,6 +187,7 @@ html, body {
     top: calc(14px + 18pt);
     right: calc(112px + 1ch);
     font-family: 'Space Mono';
+    line-height: 24px;
     font-size: 10pt;
 }
 

@@ -10,7 +10,8 @@ socket.onclose = event => {
 const settings = {
     useOriginalMetadata: false,             // Use the original language for metadata
     showCombo: true,                        // Show combo counter in overlay
-    showScore: true,
+    showScore: true,                        // Show score in overlay
+    beatmapInfoOffset: '16px',              // Move beatmap info down by this much when showing interface
 }
 
 // Elements
@@ -35,8 +36,9 @@ const rankingMean = document.querySelector('#ranking-mean');
 const rankingPP = document.querySelector('#ranking-pp');
 const rankingFCPP = document.querySelector('#ranking-fc-pp');
 
-const topElements = [bmInfo, bmId, bmStats, timer, hp, accuracy, pp, fcPP, score, hits];
-const bottomElements = [combo, unstableRate];
+const topElements = [bmInfo, bmId, bmStats, pp, fcPP, hits];
+const bottomElements = [unstableRate];
+const interface = [timer, hp, accuracy, score];
 
 if (!settings.showCombo) {
     combo.style.visibility = 'hidden';
@@ -93,6 +95,34 @@ socket.onmessage = event => {
             animation.misses.update(data.gameplay.hits['0']);
 
             bmInfo.innerText = buildMetadata(metadata, data.menu.mods.str);
+
+            if (data.settings.showInterface) {
+                interface.forEach(element => {
+                    hideElement(element, '-8px');
+                });
+                hideElement(combo, '8px');
+                bmInfo.style.marginTop = settings.beatmapInfoOffset;
+                bmId.style.marginTop = settings.beatmapInfoOffset;
+                bmStats.style.marginTop = settings.beatmapInfoOffset;
+
+                hits.style.top = '80px';
+                hits.style.right = '12px';
+                pp.style.top = 'calc(80px + 12px + 12pt)';
+                fcPP.style.top = 'calc(80px + 16px + 24pt)';
+            } else {
+                interface.forEach(element => {
+                    showElement(element);
+                });
+                showElement(combo);
+                bmInfo.style.marginTop = 0;
+                bmId.style.marginTop = 0;
+                bmStats.style.marginTop = 0;
+
+                hits.style.top = 'var(--hits-top)';
+                hits.style.right = 'var(--hits-right)';
+                pp.style.top = 'var(--pp-top)';
+                fcPP.style.top = 'var(--fc-pp-top)';
+            }
             
             topElements.forEach(element => {
                 element.style.transform = 'translateY(0)';
@@ -208,4 +238,14 @@ function buildMetadata(metadata, mods) {
     }
     metaString += ` [${metadata.difficulty}]${mods === 'NM'? '' : ' +' + mods}`;
     return metaString;
+}
+
+function hideElement(element, offset) {
+    element.style.transform = `translateY(${offset})`;
+    element.style.opacity = 0;
+}
+
+function showElement(element) {
+    element.style.transform = 'translateY(0)';
+    element.style.opacity = 1;
 }
