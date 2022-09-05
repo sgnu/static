@@ -13,6 +13,11 @@ const comboOptions = {
     duration: 0.25,
 }
 
+const hitOptions = {
+    duration: 0.25,
+    useGrouping: false,
+}
+
 /* --- */
 
 const socket = new ReconnectingWebSocket('ws://127.0.0.1:24050/ws');
@@ -25,6 +30,10 @@ socket.onclose = event => {
 const leaderboardContainer = document.getElementById('leaderboard-container');
 
 const animation = {
+    playerCombo: new CountUp('player-combo', 0, comboOptions),
+    hits100: new CountUp('hits-100', 0, hitOptions),
+    hits50: new CountUp('hits-50', 0, hitOptions),
+    hits0: new CountUp('hits-0', 0, hitOptions),
 }
 
 /**
@@ -44,11 +53,11 @@ socket.onmessage = event => {
                 generateLeaderboard(data.gameplay.leaderboard);
                 animation.leaderboardScore = new CountUp('lb-our-player-score', 0, scoreOptions);
                 animation.leaderboardCombo = new CountUp('lb-our-player-combo', 0, comboOptions);
-                updateLeaderboardPositions(data.gameplay.leaderboard);
+                // updateLeaderboardPositions(data.gameplay.leaderboard);
             } else {
-                updateLeaderboardPositions(data.gameplay.leaderboard);
-                animation.leaderboardScore.update(data.gameplay.leaderboard.ourplayer.score);
-                animation.leaderboardCombo.update(data.gameplay.leaderboard.ourplayer.maxCombo);
+                // updateLeaderboardPositions(data.gameplay.leaderboard);
+                // animation.leaderboardScore.update(data.gameplay.leaderboard.ourplayer.score);
+                // animation.leaderboardCombo.update(data.gameplay.leaderboard.ourplayer.maxCombo);
             }
 
             if (data.gameplay.leaderboard.isVisible) {
@@ -58,6 +67,11 @@ socket.onmessage = event => {
                 leaderboardContainer.style.left = '8px';
                 leaderboardContainer.style.opacity = 1;
             }
+
+            animation.playerCombo.update(data.gameplay.combo.current);
+            animation.hits100.update(data.gameplay.hits['100']);
+            animation.hits50.update(data.gameplay.hits['50']);
+            animation.hits0.update(data.gameplay.hits['0']);
         }
     }
 }
