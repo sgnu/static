@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap');
 
 html, body {
     margin: 0;
@@ -14,12 +14,14 @@ html, body {
     border: 2px solid white;
 
     font-family: "IBM Plex Mono";
+    font-size: 18px;
+
     display: flex;
 
     padding: 0 8px;
     position: absolute;
-    bottom: 8px;
-    left: 8px;
+    bottom: 28px;
+    left: 16px;
 
     transition: all 0.33s ease-out;
 }
@@ -27,6 +29,10 @@ html, body {
 #combo-hits-container p {
     margin: 0;
     padding: 4px 0;
+}
+
+#combo-hits-container #player-combo {
+    min-width: 5ch;
 }
 
 #player-combo::after {
@@ -39,6 +45,7 @@ html, body {
 #combo-hits-container .hits {
     border-bottom: 2px solid;
     border-radius: 2px;
+    padding: 0px 3px;
 }
 
 #combo-hits-container #hits-100 {
@@ -53,36 +60,48 @@ html, body {
     border-color: red;
 }
 
+.extra-info {
+    background-color: #272727;
+    border: 2px solid white;
+    border-radius: 4px;
+
+    font-family: "IBM Plex Mono";
+    font-size: 12px;
+
+    position: absolute;
+    padding: 4px 8px;
+
+    transition: all 0.33s ease-out;
+}
+
+#player-max-combo {
+    bottom: 56px;
+    left: 8px;
+}
+
+#hits-sb {
+    bottom: 8px;
+    left: 144px;
+}
+
 #leaderboard-container {
     /* background: black; */
     overflow: hidden;
-    scrollbar-width: 0;
 
     height: 346px;
     width: 320px;
     position: absolute;
     left: 8px;
 
-    top: 50%;
-    transform: translateY(-50%);
+    top: 128px;
 
     transition: all 0.33s ease-out;
-}
-
-#leaderboard-container .shadow {
-    background: linear-gradient(180deg, #000000 0px, #00000000 12px);
-    content: "";
-    position: sticky;
-    top: 0;
-    left: 0;
-    width: 320px;
-    height: 12px;
 }
 
 #leaderboard-container > div {
     position: absolute;
     border-left: 2px solid;
-    border-color: #ffffff80;
+    border-color: #ffffff40;
     border-radius: 2px;
     width: 300px;
     height: 56px;
