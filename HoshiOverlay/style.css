@@ -105,10 +105,23 @@ html, body {
     left: 144px;
 }
 
+#score {
+    font-family: "IBM Plex Mono";
+    font-size: 32px;
+    line-height: 32px;
+
+    position: absolute;
+    top: 8px;
+    right: 24px;
+    margin: 0;
+    
+    transition: all 0.33s ease-out;
+}
+
 img.small-rank {
     position: absolute;
-    top: 48px;
-    right: 8px;
+    top: 32px;
+    right: 12px;
 
     transition: all 0.33s ease-out;
 }

@@ -33,6 +33,7 @@ const animation = {
     hits100: new CountUp('hits-100', 0, hitOptions),
     hits50: new CountUp('hits-50', 0, hitOptions),
     hits0: new CountUp('hits-0', 0, hitOptions),
+    score: new CountUp('score', 0, scoreOptions),
 }
 
 const elements = {
@@ -76,6 +77,7 @@ socket.onmessage = event => {
             animation.hits100.update(data.gameplay.hits['100']);
             animation.hits50.update(data.gameplay.hits['50']);
             animation.hits0.update(data.gameplay.hits['0']);
+            animation.score.update(data.gameplay.score);
 
             elements.hpBar.style.width = `${240 * (Math.min(data.gameplay.hp.normal, 180) / 180)}px`;
 
