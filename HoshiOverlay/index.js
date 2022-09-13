@@ -6,10 +6,17 @@ const leaderboardConfig = {
     gap: 2
 };
 
+const accuracyOptions = {
+    duration: 0.25,
+    useGrouping: false,
+    decimalPlaces: 2,
+    suffix: '%',
+}
+
 const urOptions = {
     duration: 0.25,
     useGrouping: false,
-    decimalPlaces: 2
+    decimalPlaces: 2,
 }
 
 const scoreOptions = {
@@ -41,6 +48,7 @@ const animation = {
     hits50: new CountUp('hits-50', 0, hitOptions),
     hits0: new CountUp('hits-0', 0, hitOptions),
     score: new CountUp('score', 0, scoreOptions),
+    accuracy: new CountUp('accuracy', 0, accuracyOptions),
 }
 
 const elements = {
@@ -86,6 +94,7 @@ socket.onmessage = event => {
             animation.hits50.update(data.gameplay.hits['50']);
             animation.hits0.update(data.gameplay.hits['0']);
             animation.score.update(data.gameplay.score);
+            animation.accuracy.update(data.gameplay.accuracy);
 
             elements.hpBar.style.width = `${240 * (Math.min(data.gameplay.hp.normal, 180) / 180)}px`;
 

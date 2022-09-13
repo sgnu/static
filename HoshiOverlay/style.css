@@ -118,8 +118,8 @@ html, body {
 
 #score {
     font-family: "IBM Plex Mono";
-    font-size: 32px;
-    line-height: 32px;
+    font-size: 24px;
+    line-height: 24px;
 
     position: absolute;
     top: 8px;
@@ -129,10 +129,24 @@ html, body {
     transition: all 0.33s ease-out;
 }
 
+#accuracy {
+    font-family: "IBM Plex Mono";
+    font-size: 18px;
+    line-height: 44px;
+
+    position: absolute;
+    top: 30px;
+    right: 48px;
+
+    margin: 0;
+}
+
 img.small-rank {
     position: absolute;
-    top: 32px;
+    top: 28px;
     right: 12px;
+    height: 48px;
+    width: auto;
 
     transition: all 0.33s ease-out;
 }
