@@ -6,6 +6,12 @@ const leaderboardConfig = {
     gap: 2
 };
 
+const urOptions = {
+    duration: 0.25,
+    useGrouping: false,
+    decimalPlaces: 2
+}
+
 const scoreOptions = {
     duration: 0.25,
 };
@@ -29,6 +35,7 @@ socket.onclose = event => {
 }
 
 const animation = {
+    unstableRate: new CountUp('unstable-rate', 0, urOptions),
     playerCombo: new CountUp('player-combo', 0, comboOptions),
     hits100: new CountUp('hits-100', 0, hitOptions),
     hits50: new CountUp('hits-50', 0, hitOptions),
@@ -73,6 +80,7 @@ socket.onmessage = event => {
                 transitionElement(elements.leaderboardContainer, true);
             }
 
+            animation.unstableRate.update(data.gameplay.hits.unstableRate);
             animation.playerCombo.update(data.gameplay.combo.current);
             animation.hits100.update(data.gameplay.hits['100']);
             animation.hits50.update(data.gameplay.hits['50']);

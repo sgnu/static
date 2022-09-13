@@ -29,6 +29,17 @@ html, body {
                 width 0.1s ease-out;
 }
 
+#unstable-rate {
+    font-family: "IBM Plex Mono";
+    font-size: 16px;
+    text-align: center;
+
+    position: absolute;
+    bottom: 48px;
+    left: 0;
+    width: 100vw;
+}
+
 #combo-hits-container {
     background-color: var(--bg-base);
     border-radius: 4px;
