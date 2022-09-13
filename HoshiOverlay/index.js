@@ -164,6 +164,10 @@ function generateLeaderboard(leaderboard) {
         return;
     }
 
+    if (leaderboard.ourplayer.team !== 0) {
+        return;
+    }
+
     const ourPlayer = leaderboard.ourplayer;
     clearLeaderboardContainer();
     leaderboard.slots.forEach((slot, index) => {
@@ -173,6 +177,10 @@ function generateLeaderboard(leaderboard) {
 
 function updateLeaderboardPositions(leaderboard) {
     if (!leaderboardConfig.enabled) {
+        return;
+    }
+
+    if (leaderboard.ourplayer.team !== 0) {
         return;
     }
 
