@@ -13,16 +13,6 @@ const accuracyOptions = {
     suffix: '%',
 }
 
-const urOptions = {
-    duration: 0.25,
-    useGrouping: false,
-    decimalPlaces: 2,
-}
-
-const scoreOptions = {
-    duration: 0.25,
-};
-
 const comboOptions = {
     duration: 0.25,
 }
@@ -30,6 +20,28 @@ const comboOptions = {
 const hitOptions = {
     duration: 0.25,
     useGrouping: false,
+}
+
+const scoreOptions = {
+    duration: 0.25,
+};
+
+const ppOptions = {
+    duration: 0.25,
+    useGrouping: false,
+    // suffix: 'pp',
+}
+
+const ppForFCOptions = {
+    duration: 0.25,
+    useGrouping: false,
+    // suffix: 'pp if fc',
+}
+
+const urOptions = {
+    duration: 0.25,
+    useGrouping: false,
+    decimalPlaces: 2,
 }
 
 /* --- */
@@ -49,6 +61,8 @@ const animation = {
     hits0: new CountUp('hits-0', 0, hitOptions),
     score: new CountUp('score', 0, scoreOptions),
     accuracy: new CountUp('accuracy', 0, accuracyOptions),
+    pp: new CountUp('pp', 0, ppOptions),
+    ppForFC: new CountUp('pp-for-fc', 0, ppForFCOptions),
 }
 
 const elements = {
@@ -56,6 +70,7 @@ const elements = {
     hitsSB: document.getElementById('hits-sb'),
     leaderboardContainer: document.getElementById('leaderboard-container'),
     hpBar: document.getElementById('hp-bar'),
+    ppForFC: document.getElementById('pp-for-fc'),
 };
 
 /**
@@ -88,6 +103,14 @@ socket.onmessage = event => {
                 transitionElement(elements.leaderboardContainer, true);
             }
 
+            if (data.gameplay.hits['0'] > 0 || data.gameplay.hits.sliderBreaks > 0) {   // not FCing
+                transitionElement(elements.ppForFC, true);
+                animation.ppForFC.update(data.gameplay.pp.fc);
+            } else {
+                transitionElement(elements.ppForFC, false, 'bottom', 8);
+                animation.ppForFC.update(0);
+            }
+
             animation.unstableRate.update(data.gameplay.hits.unstableRate);
             animation.playerCombo.update(data.gameplay.combo.current);
             animation.hits100.update(data.gameplay.hits['100']);
@@ -95,6 +118,7 @@ socket.onmessage = event => {
             animation.hits0.update(data.gameplay.hits['0']);
             animation.score.update(data.gameplay.score);
             animation.accuracy.update(data.gameplay.accuracy);
+            animation.pp.update(data.gameplay.pp.current);
 
             elements.hpBar.style.width = `${240 * (Math.min(data.gameplay.hp.normal, 180) / 180)}px`;
 

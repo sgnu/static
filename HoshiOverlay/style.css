@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Noto+Sans+JP:wght@300;400&display=swap');
 
 :root {
     --bg-base: #272732;
@@ -139,6 +139,42 @@ html, body {
     right: 48px;
 
     margin: 0;
+}
+
+#pp {
+    font-family: "IBM Plex Mono";
+    font-size: 16px;
+
+    position: absolute;
+    top: 64px;
+    right: 24px;
+
+    margin: 0;
+    transition: all 0.33s ease-out;
+}
+
+#pp::after {
+    font-family: "Noto Sans JP";
+    font-weight: 300;
+    content: " pp";
+}
+
+#pp-for-fc {
+    font-family: "IBM Plex Mono";
+    font-size: 16px;
+
+    position: absolute;
+    top: 88px;
+    right: 24px;
+
+    margin: 0;
+    transition: all 0.33s ease-out;
+}
+
+#pp-for-fc::after {
+    font-family: "Noto Sans JP";
+    font-weight: 300;
+    content: " pp if fc";
 }
 
 img.small-rank {
