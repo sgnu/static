@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap');
 
+:root {
+    --bg-base: #272732;
+    
+    --hp-color: #ffffffcc;
+    --hp-glow: #ffffff40;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -9,8 +16,8 @@ html, body {
 }
 
 #hp-bar {
-    background-color: #ffffffcc;
-    box-shadow: 0 0 4px 2px #ffffff40;
+    background-color: var(--hp-color);
+    box-shadow: 0 0 4px 2px var(--hp-glow);
     border-radius: 0 2px 2px 0;
 
     height: 4px;
@@ -23,7 +30,7 @@ html, body {
 }
 
 #combo-hits-container {
-    background-color: #272727;
+    background-color: var(--bg-base);
     border-radius: 4px;
     border: 2px solid white;
 
@@ -75,7 +82,7 @@ html, body {
 }
 
 .extra-info {
-    background-color: #272727;
+    background-color: var(--bg-base);
     border: 2px solid white;
     border-radius: 4px;
 
