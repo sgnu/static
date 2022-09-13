@@ -1,6 +1,7 @@
 import { CountUp } from "./deps/countUp.js";
 
 const leaderboardConfig = {
+    enabled: false,
     slotHeight: 56,
     gap: 2
 };
@@ -38,6 +39,7 @@ const elements = {
     maxCombo: document.getElementById('player-max-combo'),
     hitsSB: document.getElementById('hits-sb'),
     leaderboardContainer: document.getElementById('leaderboard-container'),
+    hpBar: document.getElementById('hp-bar'),
 };
 
 /**
@@ -74,6 +76,8 @@ socket.onmessage = event => {
             animation.hits100.update(data.gameplay.hits['100']);
             animation.hits50.update(data.gameplay.hits['50']);
             animation.hits0.update(data.gameplay.hits['0']);
+
+            elements.hpBar.style.width = `${240 * (Math.min(data.gameplay.hp.normal, 180) / 180)}px`;
 
             if (data.gameplay.combo.current < data.gameplay.combo.max) {
                 transitionElement(elements.maxCombo, true);
@@ -136,6 +140,10 @@ function clearLeaderboardContainer() {
  * @param {} leaderboard 
  */
 function generateLeaderboard(leaderboard) {
+    if (!leaderboardConfig.enabled) {
+        return;
+    }
+
     const ourPlayer = leaderboard.ourplayer;
     clearLeaderboardContainer();
     leaderboard.slots.forEach((slot, index) => {
@@ -144,6 +152,10 @@ function generateLeaderboard(leaderboard) {
 }
 
 function updateLeaderboardPositions(leaderboard) {
+    if (!leaderboardConfig.enabled) {
+        return;
+    }
+
     const ourPlayer = leaderboard.ourplayer;
     for (let i = 0; i < leaderboard.slots.length - 1; i++) {
         transitionElement(document.getElementById(`lb-slot-${i}`), false, 'bottom', 32);

@@ -8,6 +8,20 @@ html, body {
     background: black;
 }
 
+#hp-bar {
+    background-color: #ffffffcc;
+    box-shadow: 0 0 4px 2px #ffffff40;
+    border-radius: 0 2px 2px 0;
+
+    height: 4px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    transition: all 0.33s ease-out,
+                width 0.1s ease-out;
+}
+
 #combo-hits-container {
     background-color: #272727;
     border-radius: 4px;
