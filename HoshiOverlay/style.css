@@ -105,6 +105,14 @@ html, body {
     left: 144px;
 }
 
+img.small-rank {
+    position: absolute;
+    top: 48px;
+    right: 8px;
+
+    transition: all 0.33s ease-out;
+}
+
 #leaderboard-container {
     /* background: black; */
     overflow: hidden;

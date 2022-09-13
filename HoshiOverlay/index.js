@@ -79,6 +79,9 @@ socket.onmessage = event => {
 
             elements.hpBar.style.width = `${240 * (Math.min(data.gameplay.hp.normal, 180) / 180)}px`;
 
+            hideSmallRankings();
+            transitionElement(document.getElementById(`small-rank-${data.gameplay.hits.grade.current}`), true);
+
             if (data.gameplay.combo.current < data.gameplay.combo.max) {
                 transitionElement(elements.maxCombo, true);
                 elements.maxCombo.innerText = `Max: ${data.gameplay.combo.max}x`;
@@ -123,6 +126,13 @@ function transitionElement(element, fadeIn, directionTo, distance) {
             translateValue = '0';
         }
         element.style.transform = `translate(${translateValue})`;
+    }
+}
+
+function hideSmallRankings() {
+    const smallRanks = document.getElementsByClassName('small-rank');
+    for (let i = 0; i < smallRanks.length; i++) {
+        transitionElement(smallRanks[i], false, 'right', 8);
     }
 }
 
