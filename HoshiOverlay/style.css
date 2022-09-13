@@ -29,6 +29,48 @@ html, body {
                 width 0.1s ease-out;
 }
 
+#beatmap-metadata {
+    font-family: "Noto Sans JP";
+
+    position: absolute;
+    top: 8px;
+    left: 16px;
+
+    margin: 0;
+    transition: all 0.33s ease-out;
+}
+
+#beatmap-id {
+    font-family: "IBM Plex Mono";
+
+    position: absolute;
+    top: 28px;
+    left: 16px;
+
+    margin: 0;
+    transition: all 0.33s ease-out;
+}
+
+#beatmap-stats-container {
+    display: flex;
+    gap: 8px;
+
+    position: absolute;
+    top: 48px;
+    left: 16px;
+    transition: all 0.33s ease-out;
+}
+
+#beatmap-stats-container p {
+    background-color: var(--bg-base);
+    border-radius: 4px;
+
+    font-family: "IBM Plex Mono";
+
+    padding: 2px 8px;
+    margin: 0;
+}
+
 #unstable-rate {
     font-family: "IBM Plex Mono";
     font-size: 16px;

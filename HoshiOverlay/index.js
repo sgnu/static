@@ -1,5 +1,7 @@
 import { CountUp } from "./deps/countUp.js";
 
+const useUnicodeMetadata = true;
+
 const leaderboardConfig = {
     enabled: false,
     slotHeight: 56,
@@ -11,38 +13,49 @@ const accuracyOptions = {
     useGrouping: false,
     decimalPlaces: 2,
     suffix: '%',
-}
+};
+
+const arOptions = {
+    duration: 0.25,
+    decimalPlaces: 1,
+    prefix: 'AR',
+};
 
 const comboOptions = {
     duration: 0.25,
-}
+};
 
 const hitOptions = {
     duration: 0.25,
     useGrouping: false,
-}
+};
 
-const scoreOptions = {
+const odOptions = {
     duration: 0.25,
+    decimalPlaces: 1,
+    prefix: 'OD',
 };
 
 const ppOptions = {
     duration: 0.25,
     useGrouping: false,
-    // suffix: 'pp',
-}
+};
 
-const ppForFCOptions = {
+const scoreOptions = {
     duration: 0.25,
-    useGrouping: false,
-    // suffix: 'pp if fc',
-}
+};
+
+const starOptions = {
+    duration: 0.25,
+    decimalPlaces: 2,
+    suffix: '★',
+};
 
 const urOptions = {
     duration: 0.25,
     useGrouping: false,
     decimalPlaces: 2,
-}
+};
 
 /* --- */
 
@@ -51,7 +64,7 @@ socket.onopen = () => console.log('Successfully connected!');
 socket.onclose = event => {
     console.log('Socket closed connection: ', event);
     socket.send('Client closed!');
-}
+};
 
 const animation = {
     unstableRate: new CountUp('unstable-rate', 0, urOptions),
@@ -62,14 +75,19 @@ const animation = {
     score: new CountUp('score', 0, scoreOptions),
     accuracy: new CountUp('accuracy', 0, accuracyOptions),
     pp: new CountUp('pp', 0, ppOptions),
-    ppForFC: new CountUp('pp-for-fc', 0, ppForFCOptions),
-}
+    ppForFC: new CountUp('pp-for-fc', 0, ppOptions),
+    stars: new CountUp('beatmap-stars', 0, starOptions),
+    ar: new CountUp('beatmap-ar', 0, arOptions),
+    od: new CountUp('beatmap-od', 0, odOptions),
+};
 
 const elements = {
     maxCombo: document.getElementById('player-max-combo'),
     hitsSB: document.getElementById('hits-sb'),
     leaderboardContainer: document.getElementById('leaderboard-container'),
     hpBar: document.getElementById('hp-bar'),
+    beatmapMetadata: document.getElementById('beatmap-metadata'),
+    beatmapID: document.getElementById('beatmap-id'),
     ppForFC: document.getElementById('pp-for-fc'),
 };
 
@@ -93,8 +111,10 @@ socket.onmessage = event => {
                 updateLeaderboardPositions(data.gameplay.leaderboard);
             } else {
                 updateLeaderboardPositions(data.gameplay.leaderboard);
-                animation.leaderboardScore.update(data.gameplay.leaderboard.ourplayer.score);
-                animation.leaderboardCombo.update(data.gameplay.leaderboard.ourplayer.maxCombo);
+                if (leaderboardConfig.enabled) {
+                    animation.leaderboardScore.update(data.gameplay.leaderboard.ourplayer.score);
+                    animation.leaderboardCombo.update(data.gameplay.leaderboard.ourplayer.maxCombo);
+                }
             }
 
             if (data.gameplay.leaderboard.isVisible) {
@@ -119,8 +139,14 @@ socket.onmessage = event => {
             animation.score.update(data.gameplay.score);
             animation.accuracy.update(data.gameplay.accuracy);
             animation.pp.update(data.gameplay.pp.current);
+            animation.stars.update(data.menu.bm.stats.SR);
+            animation.ar.update(data.menu.bm.stats.AR);
+            animation.od.update(data.menu.bm.stats.OD);
 
             elements.hpBar.style.width = `${240 * (Math.min(data.gameplay.hp.normal, 180) / 180)}px`;
+
+            elements.beatmapMetadata.innerText = createMetadataString(data.menu.bm.metadata, data.menu.mods.str);
+            elements.beatmapID.innerText = (data.menu.bm.id ? `/b/${data.menu.bm.id}` : '');
 
             hideSmallRankings();
             transitionElement(document.getElementById(`small-rank-${data.gameplay.hits.grade.current}`), true);
@@ -140,7 +166,7 @@ socket.onmessage = event => {
             }
         }
     }
-}
+};
 
 
 /**
@@ -177,6 +203,19 @@ function hideSmallRankings() {
     for (let i = 0; i < smallRanks.length; i++) {
         transitionElement(smallRanks[i], false, 'right', 8);
     }
+}
+
+function createMetadataString(metadata, mods) {
+    let artist, title;
+    if (useUnicodeMetadata) {
+        artist = metadata.artistOriginal;
+        title = metadata.titleOriginal;
+    } else {
+        artist = metadata.artist;
+        title = metadata.title;
+    }
+
+    return `${artist} - ${title} [${metadata.difficulty}] ${formatModString(mods)} by ${metadata.mapper}`;
 }
 
 /**
