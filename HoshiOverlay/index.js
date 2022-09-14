@@ -82,13 +82,19 @@ const animation = {
 };
 
 const elements = {
-    maxCombo: document.getElementById('player-max-combo'),
-    hitsSB: document.getElementById('hits-sb'),
-    leaderboardContainer: document.getElementById('leaderboard-container'),
     hpBar: document.getElementById('hp-bar'),
     beatmapMetadata: document.getElementById('beatmap-metadata'),
     beatmapID: document.getElementById('beatmap-id'),
+    beatmapStatsContainer: document.getElementById('beatmap-stats-container'),
+    unstableRate: document.getElementById('unstable-rate'),
+    comboHitsContainer: document.getElementById('combo-hits-container'),
+    maxCombo: document.getElementById('player-max-combo'),
+    hitsSB: document.getElementById('hits-sb'),
+    score: document.getElementById('score'),
+    accuracy: document.getElementById('accuracy'),
+    pp: document.getElementById('pp'),
     ppForFC: document.getElementById('pp-for-fc'),
+    leaderboardContainer: document.getElementById('leaderboard-container'),
 };
 
 /**
@@ -131,6 +137,16 @@ socket.onmessage = event => {
                 animation.ppForFC.update(0);
             }
 
+            transitionElement(elements.hpBar, true);
+            transitionElement(elements.beatmapMetadata, true);
+            transitionElement(elements.beatmapID, true);
+            transitionElement(elements.beatmapStatsContainer, true);
+            transitionElement(elements.unstableRate, true);
+            transitionElement(elements.comboHitsContainer, true);
+            transitionElement(elements.score, true);
+            transitionElement(elements.accuracy, true);
+            transitionElement(elements.pp, true);
+
             animation.unstableRate.update(data.gameplay.hits.unstableRate);
             animation.playerCombo.update(data.gameplay.combo.current);
             animation.hits100.update(data.gameplay.hits['100']);
@@ -169,6 +185,21 @@ socket.onmessage = event => {
                 transitionElement(elements.hitsSB, false, 'bottom', 8);
             }
         }
+    } else {
+            transitionElement(elements.hpBar, false, 'top', 16);
+            transitionElement(elements.beatmapMetadata, false, 'top', 16);
+            transitionElement(elements.beatmapID, false, 'top', 16);
+            transitionElement(elements.beatmapStatsContainer, false, 'top', 16);
+            transitionElement(elements.unstableRate, false, 'bottom', 16);
+            transitionElement(elements.comboHitsContainer, false, 'bottom', 16);
+            transitionElement(elements.maxCombo, false, 'bottom', 16);
+            transitionElement(elements.hitsSB, false, 'bottom', 16);
+            transitionElement(elements.score, false, 'top', 16);
+            transitionElement(elements.accuracy, false, 'top', 16);
+            transitionElement(elements.pp, false, 'top', 16);
+            transitionElement(elements.ppForFC, false, 'top', 16)
+            transitionElement(elements.leaderboardContainer, false, 'left', 16);
+            hideSmallRankings();
     }
 };
 
