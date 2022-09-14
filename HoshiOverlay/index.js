@@ -41,6 +41,11 @@ const ppOptions = {
     useGrouping: false,
 };
 
+const resultsOptions = {
+    duration: 1,
+    useGrouping: false,
+}
+
 const scoreOptions = {
     duration: 0.25,
 };
@@ -56,6 +61,44 @@ const urOptions = {
     useGrouping: false,
     decimalPlaces: 2,
 };
+
+const strainGraphSettings = {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            data: [],
+            backgroundColor: ['#ffffff'],
+            borderColor: ['#ffffff'],
+            fill: false,
+            tension: 0.2,
+            // parsing: false
+        }]
+    },
+    options: {
+        animation: {
+            duration: 333,
+        },
+        scales: {
+            x: {
+                display: false,
+            },
+            y: {
+                display: false
+            }
+        },
+        elements: {
+            point: {
+                radius: 0,
+            },
+        },
+        plugins : {
+            legend: {
+                display: false,
+            }
+        }
+    }
+}
 
 /* --- */
 
@@ -79,6 +122,7 @@ const animation = {
     stars: new CountUp('beatmap-stars', 0, starOptions),
     ar: new CountUp('beatmap-ar', 0, arOptions),
     od: new CountUp('beatmap-od', 0, odOptions),
+    resultsPp: new CountUp('results-pp', 0, resultsOptions),
 };
 
 const elements = {
@@ -95,12 +139,28 @@ const elements = {
     pp: document.getElementById('pp'),
     ppForFC: document.getElementById('pp-for-fc'),
     leaderboardContainer: document.getElementById('leaderboard-container'),
+    results: document.getElementById('results'),
+    timeline: document.getElementById('timeline'),
 };
+
+const ctx = document.getElementById('strain-graph').getContext('2d');
+const strainGraph = new Chart(ctx, strainGraphSettings);
 
 /**
  * Beatmap's MD5 checksum to be updated in-game
  */
 let leaderboardMD5;
+
+let timelineCreated = false;
+
+let missCount = 0;
+const missArr = [];
+
+let fiftyCount = 0;
+const fiftyArr = [];
+
+let hundredCount = 0;
+const hundredArr = [];
 
 socket.onmessage = event => {
     const data = JSON.parse(event.data);
@@ -135,6 +195,36 @@ socket.onmessage = event => {
             } else {
                 transitionElement(elements.ppForFC, false, 'bottom', 8);
                 animation.ppForFC.update(0);
+            }
+
+            if (missCount !== data.gameplay.hits[0]) {
+                if (data.gameplay.hits[0] === 0) {
+                    missCount = 0;
+                    missArr.length = 0;
+                } else {
+                    missArr.push(data.menu.bm.time.current);
+                    missCount = data.gameplay.hits[0];
+                }
+            }
+
+            if (fiftyCount !== data.gameplay.hits[50]) {
+                if (data.gameplay.hits[50] === 0) {
+                    fiftyCount = 0;
+                    fiftyArr.length = 0;
+                } else {
+                    fiftyArr.push(data.menu.bm.time.current);
+                    fiftyCount = data.gameplay.hits[50];
+                }
+            }
+
+            if (hundredCount !== data.gameplay.hits[100]) {
+                if (data.gameplay.hits[100] === 0) {
+                    hundredCount = 0;
+                    hundredArr.length = 0;
+                } else {
+                    hundredArr.push(data.menu.bm.time.current);
+                    hundredCount = data.gameplay.hits[100];
+                }
             }
 
             transitionElement(elements.hpBar, true);
@@ -200,6 +290,28 @@ socket.onmessage = event => {
             transitionElement(elements.ppForFC, false, 'top', 16)
             transitionElement(elements.leaderboardContainer, false, 'left', 16);
             hideSmallRankings();
+    }
+
+    if (data.menu.state === 7) {    // results screen
+        if (data.resultsScreen.name === data.gameplay.name) {   // data.gameplay is kept in memory when going from playing to results screen
+            if (!timelineCreated) {
+                transitionElement(elements.results, true);
+
+                while (elements.timeline.lastChild) {
+                    elements.timeline.removeChild(elements.timeline.lastChild);
+                }
+                updateStrainGraph(data.menu.pp.strains);
+                createTimelineObjects(missArr, 'miss', data.menu.bm.time.mp3);
+                createTimelineObjects(fiftyArr, 'fifty', data.menu.bm.time.mp3);
+                createTimelineObjects(hundredArr, 'hundred', data.menu.bm.time.mp3);
+                animation.resultsPp.update(data.gameplay.pp.current);
+                timelineCreated = true;
+            }
+        }
+    } else {
+        transitionElement(elements.results, false, 'bottom', 64);
+        animation.resultsPp.update(0);
+        timelineCreated = false;
     }
 };
 
@@ -379,6 +491,31 @@ function isOurPlayer(ourPlayer, player) {
     } else {
         return false;
     }
+}
+
+function updateStrainGraph(strains) {
+    const strainArray = [];
+    const indecises = [];
+    strains.forEach((strain, index) => {
+        strainArray.push({ x: index, y: strain });
+        indecises.push(index);
+    });
+    if (strainArray !== strainGraph.data.datasets[0].data) {
+        strainGraph.data.datasets[0].data = strainArray;
+        strainGraph.data.labels = indecises;
+        strainGraph.update();
+    }
+}
+
+function createTimelineObjects(hitArray, type, maxTime) {
+    console.log(hitArray);
+    hitArray.forEach((time) => {
+        const hitObject = document.createElement('div');
+        hitObject.classList.add('timeline-hit-object');
+        hitObject.classList.add(type);
+        hitObject.style.left = `${(time / maxTime) * 400}px`;
+        elements.timeline.appendChild(hitObject);
+    });
 }
 
 function formatModString(modString) {
