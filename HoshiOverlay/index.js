@@ -149,7 +149,11 @@ socket.onmessage = event => {
             elements.beatmapID.innerText = (data.menu.bm.id ? `/b/${data.menu.bm.id}` : '');
 
             hideSmallRankings();
-            transitionElement(document.getElementById(`small-rank-${data.gameplay.hits.grade.current}`), true);
+            if (data.gameplay.hits.grade.current === '') {
+                transitionElement(document.getElementById('small-rank-SS'), true); // display SS as placeholder
+            } else {
+                transitionElement(document.getElementById(`small-rank-${data.gameplay.hits.grade.current}`), true);
+            }
 
             if (data.gameplay.combo.current < data.gameplay.combo.max) {
                 transitionElement(elements.maxCombo, true);
