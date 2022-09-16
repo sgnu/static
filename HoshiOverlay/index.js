@@ -327,8 +327,8 @@ socket.onmessage = event => {
             }
         }
     } else {
-        transitionElement(elements.results, false, 'bottom', 64);
-        transitionElement(elements.resultsPpForFC, false, 'bottom', 16);
+        transitionElement(elements.results, false, 'bottom', 32);
+        transitionElement(elements.resultsPpForFC, false, 'bottom', 8);
         animation.resultsPp.update(0);
         animation.resultsPpForFC.update(0);
         animation.resultsUnstableRate.update(0);
@@ -533,7 +533,7 @@ function createTimelineObjects(hitArray, type, maxTime) {
         const hitObject = document.createElement('div');
         hitObject.classList.add('timeline-hit-object');
         hitObject.classList.add(type);
-        hitObject.style.left = `${(time / maxTime) * 400}px`;
+        hitObject.style.left = `${(time / maxTime) * 240}px`;
         elements.timeline.appendChild(hitObject);
     });
 }
