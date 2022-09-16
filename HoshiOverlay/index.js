@@ -374,8 +374,8 @@ function hideSmallRankings() {
 function createMetadataString(metadata, mods) {
     let artist, title;
     if (useUnicodeMetadata) {
-        artist = metadata.artistOriginal;
-        title = metadata.titleOriginal;
+        artist = metadata.artistOriginal ? metadata.artistOriginal : metadata.artist;   // non-unicode metadata does not fill the metadata.artistOriginal and metadata.titleOriginal field
+        title = metadata.titleOriginal ? metadata.titleOriginal : metadata.title;
     } else {
         artist = metadata.artist;
         title = metadata.title;
