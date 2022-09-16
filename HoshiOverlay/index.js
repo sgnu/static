@@ -529,7 +529,6 @@ function updateStrainGraph(strains) {
 }
 
 function createTimelineObjects(hitArray, type, maxTime) {
-    console.log(hitArray);
     hitArray.forEach((time) => {
         const hitObject = document.createElement('div');
         hitObject.classList.add('timeline-hit-object');
