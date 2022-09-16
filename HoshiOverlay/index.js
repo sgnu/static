@@ -23,6 +23,7 @@ const arOptions = {
 
 const comboOptions = {
     duration: 0.25,
+    useEasing: false,
 };
 
 const hitOptions = {
@@ -54,6 +55,7 @@ const resultsUROptions = {
 
 const scoreOptions = {
     duration: 0.25,
+    useEasing: false,
 };
 
 const starOptions = {
