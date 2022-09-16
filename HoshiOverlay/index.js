@@ -42,9 +42,15 @@ const ppOptions = {
 };
 
 const resultsOptions = {
-    duration: 1,
+    duration: 1.5,
     useGrouping: false,
-}
+};
+
+const resultsUROptions = {
+    duration: 1.5,
+    useGrouping: false,
+    decimalPlaces: 2,
+};
 
 const scoreOptions = {
     duration: 0.25,
@@ -123,6 +129,8 @@ const animation = {
     ar: new CountUp('beatmap-ar', 0, arOptions),
     od: new CountUp('beatmap-od', 0, odOptions),
     resultsPp: new CountUp('results-pp', 0, resultsOptions),
+    resultsPpForFC: new CountUp('results-pp-for-fc', 0, resultsOptions),
+    resultsUnstableRate: new CountUp('results-unstable-rate', 0, resultsUROptions),
 };
 
 const elements = {
@@ -140,6 +148,7 @@ const elements = {
     ppForFC: document.getElementById('pp-for-fc'),
     leaderboardContainer: document.getElementById('leaderboard-container'),
     results: document.getElementById('results'),
+    resultsPpForFC: document.getElementById('results-pp-for-fc'),
     timeline: document.getElementById('timeline'),
 };
 
@@ -305,12 +314,22 @@ socket.onmessage = event => {
                 createTimelineObjects(fiftyArr, 'fifty', data.menu.bm.time.mp3);
                 createTimelineObjects(hundredArr, 'hundred', data.menu.bm.time.mp3);
                 animation.resultsPp.update(data.gameplay.pp.current);
+                animation.resultsUnstableRate.update(data.gameplay.hits.unstableRate);
+
+                if (data.gameplay.hits["0"] > 0 || data.gameplay.hits.sliderBreaks > 0) {
+                    transitionElement(elements.resultsPpForFC, true);
+                    animation.resultsPpForFC.update(data.gameplay.pp.fc);
+                }
+
                 timelineCreated = true;
             }
         }
     } else {
         transitionElement(elements.results, false, 'bottom', 64);
+        transitionElement(elements.resultsPpForFC, false, 'bottom', 16);
         animation.resultsPp.update(0);
+        animation.resultsPpForFC.update(0);
+        animation.resultsUnstableRate.update(0);
         timelineCreated = false;
     }
 };

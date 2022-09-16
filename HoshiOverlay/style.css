@@ -297,10 +297,9 @@ img.small-rank {
 
 #results-pp {
     font-family: "IBM Plex Mono";
-    font-size: 72px;
-    line-height: 100px;
+    font-size: 48px;
+    line-height: 72px;
 
-    height: 100px;
     margin: 0;
     position: absolute;
     top: 0;
@@ -309,8 +308,42 @@ img.small-rank {
 
 #results-pp::after {
     font-family: "Noto Sans JP";
-    font-size: 48px;
+    font-size: 32px;
     content: "pp";
+}
+
+#results-pp-for-fc {
+    font-family: "IBM Plex Mono";
+    font-size: 24px;
+
+    height: 0;
+    width: 16ch;
+    margin: 0;
+    position: absolute;
+    top: 56px;
+    left: 420px;
+    transition: all 0.33s ease-out;
+}
+
+#results-pp-for-fc::after {
+    font-family: "Noto Sans JP";
+    font-size: 16px;
+    content: "pp for fc";
+}
+
+#results-unstable-rate {
+    font-family: "IBM Plex Mono";
+    text-align: center;
+
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    top: 108px;
+}
+
+#results-unstable-rate::after {
+    font-family: "Noto Sans JP";
+    content: " UR";
 }
 
 #timeline {
