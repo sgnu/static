@@ -118,6 +118,12 @@ socket.onclose = event => {
 };
 
 const animation = {
+    pp100: new CountUp('100pp', 0, ppOptions),
+    pp99: new CountUp('99pp', 0, ppOptions),
+    pp98: new CountUp('98pp', 0, ppOptions),
+    pp97: new CountUp('97pp', 0, ppOptions),
+    pp96: new CountUp('96pp', 0, ppOptions),
+    pp95: new CountUp('95pp', 0, ppOptions),
     unstableRate: new CountUp('unstable-rate', 0, urOptions),
     playerCombo: new CountUp('player-combo', 0, comboOptions),
     hits100: new CountUp('hits-100', 0, hitOptions),
@@ -136,6 +142,7 @@ const animation = {
 };
 
 const elements = {
+    selectPpContainer: document.getElementById('select-pp-container'),
     hpBar: document.getElementById('hp-bar'),
     beatmapMetadata: document.getElementById('beatmap-metadata'),
     beatmapID: document.getElementById('beatmap-id'),
@@ -333,6 +340,18 @@ socket.onmessage = event => {
         animation.resultsPpForFC.update(0);
         animation.resultsUnstableRate.update(0);
         timelineCreated = false;
+    }
+
+    if (data.menu.state === 4 || data.menu.state === 5) {    // song select
+        transitionElement(elements.selectPpContainer, true);
+        animation.pp100.update(data.menu.pp['100']);
+        animation.pp99.update(data.menu.pp['99']);
+        animation.pp98.update(data.menu.pp['98']);
+        animation.pp97.update(data.menu.pp['97']);
+        animation.pp96.update(data.menu.pp['96']);
+        animation.pp95.update(data.menu.pp['96']);
+    } else {
+        transitionElement(elements.selectPpContainer, false, 'top', 16);
     }
 };
 

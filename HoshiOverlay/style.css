@@ -23,6 +23,36 @@ html, body {
     overflow: hidden;
 }
 
+#select-pp-container {
+    background-color: var(--bg-base);
+    border: 2px solid white;
+    border-radius: 4px;
+
+    font-family: "IBM Plex Mono";
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    width: 240px;
+    padding: 8px 12px;
+
+    position: absolute;
+    top: 32px;
+    right: 16px;
+
+    transition: all 0.33s ease-out;
+}
+
+#select-pp-container > p {
+    margin: 0;
+    text-align: center;
+}
+
+#select-pp-container > p > span::after {
+    content: "pp";
+    font-family: "Noto Sans JP";
+    font-size: 12px;
+}
+
 #hp-bar {
     background-color: var(--hp-color);
     box-shadow: 0 0 4px 2px var(--hp-glow);
