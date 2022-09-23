@@ -2,6 +2,8 @@ import { CountUp } from "./deps/countUp.js";
 
 const useUnicodeMetadata = true;
 
+const beatmapInfoOffset = '96px';
+
 const leaderboardConfig = {
     enabled: false,
     slotHeight: 56,
@@ -245,14 +247,43 @@ socket.onmessage = event => {
                 }
             }
 
-            transitionElement(elements.hpBar, true);
+            const rankingImages = document.getElementsByClassName('small-rank');
+
+            if (data.settings.showInterface) {
+                transitionElement(elements.hpBar, false, 'top', 16);
+                transitionElement(elements.score, false, 'top', 16);
+                transitionElement(elements.accuracy, false, 'top', 16);
+
+                elements.pp.style.marginTop = '32px';
+                elements.ppForFC.style.marginTop = '32px';
+                elements.beatmapMetadata.style.marginTop = beatmapInfoOffset;
+                elements.beatmapID.style.marginTop = beatmapInfoOffset;
+                elements.beatmapStatsContainer.style.marginTop = beatmapInfoOffset;
+
+                for (let i = 0; i < rankingImages.length; i++) {
+                    rankingImages[i].style.marginTop = '32px';
+                }
+            } else {
+                transitionElement(elements.hpBar, true);
+                transitionElement(elements.score, true);
+                transitionElement(elements.accuracy, true);
+
+                elements.pp.style.marginTop = '0';
+                elements.ppForFC.style.marginTop = '0';
+                elements.beatmapMetadata.style.marginTop = '0';
+                elements.beatmapID.style.marginTop = '0';
+                elements.beatmapStatsContainer.style.marginTop = '0';
+
+                for (let i = 0; i < rankingImages.length; i++) {
+                    rankingImages[i].style.marginTop = '0';
+                }
+            }
+
             transitionElement(elements.beatmapMetadata, true);
             transitionElement(elements.beatmapID, true);
             transitionElement(elements.beatmapStatsContainer, true);
             transitionElement(elements.unstableRate, true);
             transitionElement(elements.comboHitsContainer, true);
-            transitionElement(elements.score, true);
-            transitionElement(elements.accuracy, true);
             transitionElement(elements.pp, true);
 
             animation.unstableRate.update(data.gameplay.hits.unstableRate);
